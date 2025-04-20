@@ -287,6 +287,45 @@ ALB controller is nothing but a POD, so to communicate with other we should conf
 
 ### step 10: Create an IAM policy and roles for this
 
+  > curl -k -O https://raw.githubusercontent.com/PSinghji/KubernetesEndtoEndProjectOnEKS/main/iam_policy.json
+<img src="images/img21.png" alt="Alt Text" width="800"/>
+  > aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://"C:\Users\Pradeep Singh\iam_policy.json"
+<img src="images/img22.png" alt="Alt Text" width="800"/>
+
+### step 11: Create IAM Role
+
+ > eksctl create iamserviceaccount  --cluster=my-eks-cluster --namespace=kube-system --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole  --attach-policy-arn=arn:aws:iam::183631346462:policy/AWSLoadBalancerControllerIAMPolicy  --approve
+
+<img src="images/img23.png" alt="Alt Text" width="800"/>
+Deploy ALB controller 
+
+### step 12 : Install Helm and add helm in repo
+
+   > curl.exe -k -LO "https://get.helm.sh/helm-v3.13.2-windows-amd64.zip"
+
+   > tar -xf helm-v3.13.2-windows-amd64.zip
+   > windows-amd64\helm.exe
+   > helm version
+<img src="images/img24.png" alt="Alt Text" width="800"/>
+
+  > helm repo add eks https://aws.github.io/eks-charts
+
+<img src="images/img25.png" alt="Alt Text" width="800"/>
+
+ * Install Helm 
+ 
+ > helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=my-eks-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller --set region=ap-south-1 --set vpcId=vpc-0a439a72accb853f3
+<img src="images/img26.png" alt="Alt Text" width="800"/>
+
+* Verify that the deployments are running.
+
+ > kubectl get deployment -n kube-system aws-load-balancer-controller
+<img src="images/img27.png" alt="Alt Text" width="800"/>
+
+
+    
+
+
 
 
 
