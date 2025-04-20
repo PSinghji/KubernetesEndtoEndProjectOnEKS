@@ -323,6 +323,10 @@ Deploy ALB controller
 <img src="images/img27.png" alt="Alt Text" width="800"/>
 
 
+## step 13: Delete ingress and recreate ingress again
+
+> kubectl apply -f https://raw.githubusercontent.com/PSinghji/KubernetesEndtoEndProjectOnEKS/main/ingress.yaml
+
     
 
 
