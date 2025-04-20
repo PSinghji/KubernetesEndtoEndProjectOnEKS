@@ -238,7 +238,56 @@ EKSCTL take care of all of control plane.
 
  ### step 8:  aws load balancer create via yaml file
 
-      kubectl apply -f vscode-remote://codespaces%2Bcurly-giggle-7vr9jj5x6r4x2xxvx/workspaces/KubernetesEndtoEndProjectOnEKS/2048_full.yaml
+      kubectl apply -f https://raw.githubusercontent.com/PSinghji/KubernetesEndtoEndProjectOnEKS/main/2048_full.yaml
+
+ Now, from yaml file 
+  - name space game-2048 is created
+  - deployment is created under the name space   
+      game-2048
+   -service is created for ns game-2048
+   - ingress is also created in ns game-2048
+
+ <img src="images/img14.png" alt="Alt Text" width="800"/>
+
+Now, check pods in defult namespace :
+
+   kubectl get pods
+<img src="images/img15.png" alt="Alt Text" width="800"/>   
+
+Check in namespace game-2048
+
+    kubectl get pods -n game-2048
+
+<img src="images/img16.png" alt="Alt Text" width="800"/>   
+
+kubectl get svc -n game-2048
+
+<img src="images/img17.png" alt="Alt Text" width="800"/> 
+
+### step 9: Aim to make the access to external world 
+
+   See below svc , we have TYPE as nordport and no external IP address, it means that only who have access to VPC can access this application.
+
+<img src="images/img18.png" alt="Alt Text" width="800"/> 
+
+Check Ingress controller 
+
+  > kubectl get ingress -n game-2048
+<img src="images/img19.png" alt="Alt Text" width="800"/> 
+
+here, host can be any on * and no address means we don't have any ingress controller.
+
+Ingress controller --> create ALB and configure all 
+
+ALB controller is nothing but a POD, so to communicate with other we should configure iam-oidc
+
+> eksctl utils associate-iam-oidc-provider --cluster my-eks-cluster --approve
+
+<img src="images/img20.png" alt="Alt Text" width="800"/>
+
+### step 10: Create an IAM policy and roles for this
+
+
 
 
        
